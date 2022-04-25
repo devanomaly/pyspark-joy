@@ -1,4 +1,4 @@
-# Count the classifications in dataset ml-100k (how many 1 star, 2 stars etc...)
+# Counts the classifications in dataset ml-100k (how many 1 star, 2 stars etc...)
 from pyspark import SparkContext
 import matplotlib.pyplot as plt
 import re

@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 
 
 def getStationAndMinTemp(x):
-    # last two are age then number of friends, that's why we want'em
     splittedFields = x.split(",")
     station = splittedFields[0]
     entryType = splittedFields[2]
