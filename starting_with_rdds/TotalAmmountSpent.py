@@ -1,6 +1,5 @@
 # We'll compute the total ammount spent per costumer in a large dataset
 from pyspark import SparkContext
-import matplotlib.pyplot as plt
 
 sc = SparkContext("local", "Mean friends by Age")
 
