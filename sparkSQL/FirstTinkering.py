@@ -16,5 +16,6 @@ schemaPeople.createOrReplaceTempView("people")
 teenagers = spark.sql(sqlQuery="SELECT * FROM people WHERE age >= 13 AND age <= 19")
 results = teenagers.collect()
 for result in results:
-  print(result)
+  resultDict = result.asDict()
+  print("id="+str(resultDict["id"]), "-- name="+str(resultDict["name"]),"-- N of friends=>" + str(resultDict["friends"]))
 spark.stop()
