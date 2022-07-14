@@ -31,14 +31,15 @@ heroesNames = (
 
 # reading the graph
 lines = spark.read.text("data/marvel-graph.txt")
-
+for line in lines.collect()[:3]:
+  print(line.asDict()["value"].split(" "),"\nprox")
 # we calculate the connections for each hero id
 heroesConnections = (
     lines.withColumn(
         "id", split(col("value"), pattern=" ")[0]
     )  # getting the current hero id in present line
     .withColumn(
-        "connections", size(split(col("value"), " ")) - 1
+        "connections", size(split(col("value"), pattern=" ")) - 2 # TODO:>> REMEMBER THIS MINUS 2!! since the "\n" (if not some tab...not completely sure) at the end of each line is being counted!
     )  # number of connections equals the splitting minus the hero's own ID occurrence
     .groupBy("id")  # lines that begin with the same first hero id are grouped
     .agg(
@@ -54,7 +55,7 @@ namesAndConnections = heroesNames.join(broadcast(heroesConnections), "id").selec
 # ... and finally print the most popular 10
 print("Top 10 most popular Marvel heroes")
 print(namesAndConnections.sort("connections", ascending=False).show(10))
-print("Top 10 most obscure Marvel heroes")
-print(namesAndConnections.sort("connections", ascending=True).show(10))
+print("Top 25 most obscure Marvel heroes")
+print(namesAndConnections.sort("connections", ascending=True).show(25))
 
 spark.stop()
